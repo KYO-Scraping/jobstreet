@@ -8,12 +8,13 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 res = requests.get(url, headers=headers)
 
-#print(res.status_code)
-#print(soup.prettify())
 
+# print(res.status_code)
+# print(soup.prettify())
+
+
+# Function to get pages quantity
 def get_total_pages():
-    res = requests.get(url, headers=headers)
-
     try:
         os.mkdir('temp')
     except FileExistsError:
@@ -23,7 +24,7 @@ def get_total_pages():
         outfile.write(res.text)
         outfile.close()
 
-    #Scraping
+    # Scraping
     soup = BeautifulSoup(res.text, 'html.parser')
 
     pagination = soup.find('ul', '_1wkzzau0 _1wkzzau3 a1msqi5a a1msqifq')
@@ -31,11 +32,23 @@ def get_total_pages():
 
     total_pages = []
     for page in pages:
-        if(page.text.isdigit()):
+        if (page.text.isdigit()):
             total_pages.append(page.text)
 
     total = int(max(total_pages))
     return total
 
+# Function to get all items
+def get_all_items():
+    with open('temp/res.html', 'w+', encoding='utf+8') as outfile:
+        outfile.write(res.text)
+        outfile.close()
+
+    soup = BeautifulSoup(res.text, 'html.parser')
+
+    # Scraping
+    contents = soup.find_all('div', '_1wkzzau0 szurmz0 szurmz4')
+    print(contents)
+
 if __name__ == '__main__':
-    get_total_pages()
+    get_all_items()
