@@ -80,7 +80,7 @@ def get_all_items():
 
         job_list.append(data_dictionary)
 
-    print(len(job_list))
+    print(job_list)
 
 
 
